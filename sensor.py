@@ -9,7 +9,7 @@ from configs import kafka_config
 
 TOPIC_NAME = "anatolii_zhakun_building_sensors"
 
-# Створюється один раз на запуск і не змінюється в циклі.
+# ID сталий протягом одного запуску сенсора.
 sensor_id = random.randint(100000, 999999)
 
 producer = KafkaProducer(
@@ -27,7 +27,7 @@ print(f"Сенсор запущено. ID сенсора: {sensor_id}")
 try:
     while True:
         reading = {
-            "sensor_id": sensor_id,
+            "id": sensor_id,
             "timestamp": datetime.now().isoformat(timespec="seconds"),
             "temperature": round(random.uniform(25, 45), 1),
             "humidity": round(random.uniform(15, 85), 1),
@@ -52,4 +52,3 @@ except KeyboardInterrupt:
 finally:
     producer.flush()
     producer.close()
-    
